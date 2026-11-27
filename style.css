@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
 :root {
     --pink: #eec7c9;
     --purple: #d3c6df;
@@ -8,10 +10,25 @@
     --grey: #545454;
     --black: #000;
     --white: #fff;
-    --serif: 'Gilda Display', Georgia, serif;
-    --sans: 'Jost', Futura, system-ui, sans-serif;
+
+    /* OYT brand typography */
+    --heading-font: 'Times New Roman MT Condensed', 'Times New Roman', Times, serif;
+    --body-font: 'Inria Serif', Georgia, serif;
+    --script-font: 'Amsterdam One', 'Brush Script MT', cursive;
+
+    /* Existing site-wide aliases used throughout this stylesheet */
+    --serif: var(--heading-font);
+    --sans: var(--body-font);
+
     --line: #e8e8e8;
     --wrap: 1200px
+}
+
+/* Use this class for occasional Amsterdam One decorative text.
+   Load the licensed Amsterdam One .woff2 file with @font-face for an exact match. */
+.script-font {
+    font-family: var(--script-font);
+    font-weight: 400;
 }
 
 * {
