@@ -50,7 +50,6 @@ body {
 h1,
 h2,
 h3 {
-    font-family: var(--serif);
     font-weight: 400;
     color: var(--black);
     line-height: 1.15;
@@ -350,7 +349,6 @@ header {
 }
 
 .note {
-    font-family: var(--serif);
     font-size: 1.15rem;
     color: var(--black);
     border-top: 1px solid var(--black);
