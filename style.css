@@ -1050,3 +1050,267 @@
                 scroll-behavior: auto !important
             }
         }
+
+
+/* =========================================
+   OYT WEBSITE ANIMATIONS
+========================================= */
+
+/* Smooth page entrance */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeRight {
+    from {
+        opacity: 0;
+        transform: translateX(35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Header animation */
+header {
+    animation: fadeDown .7s ease both;
+}
+
+/* Hero section */
+.hero .copy {
+    animation: fadeLeft .9s ease both;
+}
+
+.hero .studio {
+    animation: fadeRight 1s ease .2s both;
+}
+
+/* Floating journal animation */
+.book {
+    animation: bookFloat 4s ease-in-out infinite;
+}
+
+@keyframes bookFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* Scroll reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(35px);
+    transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.22, 1, .36, 1);
+    transition-delay: var(--delay, 0ms);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Left and right reveal */
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all .8s ease;
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all .8s ease;
+}
+
+.reveal-left.active,
+.reveal-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Category cards */
+.cat {
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease;
+}
+
+.cat:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 18px 35px rgba(0,0,0,.08);
+}
+
+.cat svg {
+    transition: transform .5s ease;
+}
+
+.cat:hover svg {
+    transform: rotate(-8deg) scale(1.08);
+}
+
+/* Product cards */
+.prod {
+    transition: transform .4s ease;
+}
+
+.prod:hover {
+    transform: translateY(-7px);
+}
+
+.shot {
+    overflow: hidden;
+}
+
+.mini {
+    transition: transform .6s cubic-bezier(.22, 1, .36, 1);
+}
+
+.prod:hover .mini {
+    transform: scale(1.06) rotate(-1deg);
+}
+
+/* Theme cards */
+.theme {
+    overflow: hidden;
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease;
+}
+
+.theme:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px rgba(0,0,0,.10);
+}
+
+/* Purpose panel */
+.panel {
+    animation: fadeUp .6s ease both;
+}
+
+/* Step cards */
+.steps li {
+    transition: transform .35s ease;
+}
+
+.steps li:hover {
+    transform: translateY(-7px);
+}
+
+.steps li:before {
+    transition: transform .4s ease;
+}
+
+.steps li:hover:before {
+    transform: rotate(12deg) scale(1.1);
+}
+
+/* Yours cards */
+.yours article {
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease;
+}
+
+.yours article:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0,0,0,.07);
+}
+
+/* Reviews */
+.rev {
+    transition:
+        transform .4s ease,
+        border-color .4s ease;
+}
+
+.rev:hover {
+    transform: translateY(-7px);
+    border-color: var(--black);
+}
+
+/* Buttons */
+.btn {
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        color .3s ease,
+        box-shadow .3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
+
+/* Navigation links */
+.links a {
+    transition: color .3s ease, border-color .3s ease;
+}
+
+/* Newsletter */
+.news {
+    transition: transform .4s ease;
+}
+
+.news:hover {
+    transform: translateY(-4px);
+}
+
+/* Quote section */
+.quote blockquote {
+    animation: fadeUp .9s ease both;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .reveal,
+    .reveal-left,
+    .reveal-right {
+        opacity: 1;
+        transform: none;
+    }
+}
