@@ -1306,7 +1306,7 @@ header {
         transition-duration: .01ms !important;
         scroll-behavior: auto !important;
     }
-
+    
     .reveal,
     .reveal-left,
     .reveal-right {
