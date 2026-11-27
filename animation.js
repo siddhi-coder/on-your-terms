@@ -1,5 +1,8 @@
 
-/* 1. Scroll reveal with stagger - REPEAT ON EVERY SCROLL */
+/* =========================================
+   1. REPEAT ANIMATION EVERY TIME SECTION
+      ENTERS THE VIEWPORT
+========================================= */
 
 if ('IntersectionObserver' in window) {
 
@@ -22,23 +25,23 @@ if ('IntersectionObserver' in window) {
 
     const start = new Map();
 
-    const observer = new IntersectionObserver(entries => {
+    const observer = new IntersectionObserver((entries) => {
 
-        entries.forEach((entry, i) => {
+        entries.forEach(entry => {
 
             const el = entry.target;
 
-            // Element enters viewport
             if (entry.isIntersecting) {
 
-                // Remove previous animation
+                // Cancel previous animation
                 el.getAnimations().forEach(animation => {
                     animation.cancel();
                 });
 
+                // Remove hidden state
                 el.style.opacity = '';
 
-                // Play animation again
+                // Play animation every time it enters
                 el.animate(
                     [
                         start.get(el),
@@ -50,15 +53,14 @@ if ('IntersectionObserver' in window) {
                     ],
                     {
                         duration: 800,
-                        delay: i * 100,
                         easing: ease,
-                        fill: 'backwards'
+                        fill: 'both'
                     }
                 );
 
             } else {
 
-                // Reset when element leaves viewport
+                // Reset animation after leaving viewport
                 el.getAnimations().forEach(animation => {
                     animation.cancel();
                 });
@@ -70,9 +72,11 @@ if ('IntersectionObserver' in window) {
         });
 
     }, {
-        threshold: 0.12
+        threshold: 0.15,
+        rootMargin: '0px'
     });
 
+    // Initialize all animated elements
     groups.forEach(([selector, from]) => {
 
         $$(selector).forEach(el => {
@@ -88,7 +92,7 @@ if ('IntersectionObserver' in window) {
 
     });
 
-    // Accessibility: reveal focused elements
+    // Keep keyboard-focused content visible
     document.addEventListener('focusin', e => {
 
         for (let el = e.target; el; el = el.parentElement) {
