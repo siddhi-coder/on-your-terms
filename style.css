@@ -426,7 +426,7 @@ header {
 
 .tabs {
     position: absolute;
-    left: calc(100% - 7px);
+    left: calc(100% - -2px);
     top: 36px;
     display: grid;
     gap: 8px;
