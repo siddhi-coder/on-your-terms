@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Login | OYT</title>
+<title>Log in | OYT</title>
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="auth.css">
 </head>
@@ -13,18 +13,16 @@
 
 <header>
   <div class="in nav">
-    <a class="logo" href="index.html"><img src="logo.png" alt="OYT"></a>
-    <nav class="links" id="links">
+    <!-- Swap for: <img src="logo.png" alt="OYT"> if you have the logo file -->
+    <a class="logo" href="index.html" aria-label="OYT home"><span class="wm">OYT</span></a>
+    <nav class="links" id="links" aria-label="Main">
       <a href="index.html">Home</a>
       <a href="#">Shop</a>
       <a href="#">About</a>
       <a href="#">Contact</a>
     </nav>
     <div class="tools">
-      <a class="ic" href="register.html" aria-label="Create account">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      </a>
-      <button class="ic" id="menu" aria-label="Menu" aria-expanded="false">
+      <button class="ic" id="menu" aria-label="Menu" aria-expanded="false" aria-controls="links">
         <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
     </div>
@@ -35,37 +33,34 @@
   <section class="hero auth">
     <div class="in auth-grid">
 
-      <form class="auth-card" id="loginForm" novalidate>
-        <div>
+      <form class="auth-card" data-auth data-success="Welcome back!" novalidate>
+        <div class="auth-head">
+          <div class="seg"><a href="login.html" aria-current="page">Log in</a><a href="register.html">Register</a></div>
           <h1>Welcome back</h1>
+          <p>Log in to see your orders and saved designs.</p>
         </div>
-        <p class="sub">Log in to see your orders and saved journals.</p>
 
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
-          <span class="msg" hidden></span>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" data-label="email" data-rules="required email" aria-describedby="email-msg" autofocus>
+          <p class="msg" id="email-msg" role="alert" hidden></p>
         </div>
 
         <div class="field">
           <label for="password">Password</label>
           <div class="pw">
-            <input id="password" type="password" autocomplete="current-password" placeholder="Your password" required>
-            <button type="button" class="ic" data-toggle="password" aria-label="Show password">
-              <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Your password" data-label="password" data-rules="required" aria-describedby="password-msg">
+            <button type="button" class="ic" data-toggle="password" aria-label="Show password"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
           </div>
-          <span class="msg" hidden></span>
+          <p class="msg" id="password-msg" role="alert" hidden></p>
         </div>
 
         <div class="auth-row">
-          <label class="check"><input type="checkbox" id="remember"> Remember me</label>
+          <label class="check"><input type="checkbox" name="remember"> Remember me</label>
           <a href="#">Forgot password?</a>
         </div>
 
         <button class="btn" type="submit">Log in</button>
-
-        <div class="or">or</div>
         <p class="auth-switch">New here? <a href="register.html">Create an account</a></p>
       </form>
 
@@ -85,43 +80,18 @@
 </main>
 
 <footer>
-  <div class="in"><p class="legal" style="border:0;margin:0;padding:0">© 2026 OYT. All rights reserved.</p></div>
+  <div class="in">
+    <div class="foot">
+      <div><a class="logo" href="index.html"><span class="wm">OYT</span></a><p>Made around you.</p></div>
+      <div><h3>Shop</h3><a href="#">Journals</a><a href="#">Planners</a><a href="#">Gifts</a></div>
+      <div><h3>Help</h3><a href="#">Contact</a><a href="#">Shipping</a><a href="#">Returns</a></div>
+      <div><h3>Account</h3><a href="login.html">Log in</a><a href="register.html">Register</a></div>
+    </div>
+    <p class="legal">© 2026 OYT. All rights reserved.</p>
+  </div>
 </footer>
 
 <div id="toast" role="status" hidden></div>
-
-<script>
-const $ = s => document.querySelector(s);
-const toast = t => { const el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 3000); };
-
-$('#menu').addEventListener('click', e => {
-  const open = $('#links').classList.toggle('open');
-  e.currentTarget.setAttribute('aria-expanded', open);
-});
-
-document.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', () => {
-  const i = document.getElementById(b.dataset.toggle);
-  const show = i.type === 'password';
-  i.type = show ? 'text' : 'password';
-  b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
-}));
-
-function setErr(input, text) {
-  const f = input.closest('.field'), m = f.querySelector('.msg');
-  f.classList.toggle('err', !!text);
-  m.textContent = text || ''; m.hidden = !text;
-  return !text;
-}
-
-$('#loginForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const em = $('#email'), pw = $('#password');
-  const ok1 = setErr(em, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim()) ? '' : 'Enter a valid email address.');
-  const ok2 = setErr(pw, pw.value ? '' : 'Enter your password.');
-  if (!ok1 || !ok2) return;
-  // TODO: submit to your backend / WooCommerce login endpoint
-  toast('Logging you in…');
-});
-</script>
+<script src="auth.js"></script>
 </body>
 </html>

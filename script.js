@@ -56,3 +56,99 @@ const I=[...P.map(p=>[p[0],'#popular']),...T.map(t=>[t[0]+' theme','#themes']),.
 $('#q').oninput=e=>{const v=e.target.value.toLowerCase().trim(),m=I.filter(i=>i[0].toLowerCase().includes(v));$('#results').innerHTML=!v?'':m.length?m.map(i=>`<a class="chip" href="${i[1]}">${i[0]}</a>`).join(''):'No matches. Try “planner” or “floral”.'};
 document.querySelectorAll('[data-msg]').forEach(b=>b.onclick=()=>toast(b.dataset.msg));
 $('#sub').onsubmit=e=>{e.preventDefault();toast('Preview only: signup is not connected yet, so your email was not saved')};
+
+
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+
+  /* Mobile menu */
+  const menu = $('#menu'), links = $('#links');
+  menu?.addEventListener('click', () => {
+    menu.setAttribute('aria-expanded', links.classList.toggle('open'));
+  });
+
+  /* Toast */
+  const toastEl = $('#toast');
+  let tt;
+  const toast = msg => {
+    toastEl.textContent = msg; toastEl.hidden = false;
+    clearTimeout(tt); tt = setTimeout(() => toastEl.hidden = true, 3200);
+  };
+
+  /* Show / hide password */
+  document.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', () => {
+    const i = document.getElementById(b.dataset.toggle);
+    const show = i.type === 'password';
+    i.type = show ? 'text' : 'password';
+    b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  }));
+
+  /* Validation */
+  const rules = {
+    required: (el, l) => el.value.trim() ? '' : `Enter your ${l}.`,
+    email:    el => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value.trim()) ? '' : 'Enter a valid email address.',
+    min:      (el, l, n) => el.value.length >= +n ? '' : `Use at least ${n} characters.`,
+    match:    (el, l, id) => el.value === document.getElementById(id).value ? '' : 'Passwords do not match.',
+    checked:  el => el.checked ? '' : 'Please accept the terms to continue.'
+  };
+
+  function show(el, text) {
+    const f = el.closest('.field'), m = $('.msg', f);
+    f.classList.toggle('err', !!text);
+    el.setAttribute('aria-invalid', !!text);
+    m.textContent = text; m.hidden = !text;
+    return !text;
+  }
+
+  function validate(el) {
+    const label = el.dataset.label || 'value';
+    for (const r of (el.dataset.rules || '').split(' ').filter(Boolean)) {
+      const [name, arg] = r.split(':');
+      const msg = rules[name](el, label, arg);
+      if (msg) return show(el, msg);
+    }
+    return show(el, '');
+  }
+
+  /* Password strength */
+  const meter = $('.meter'), mLabel = $('.meter-label');
+  const words = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+  function strength(v) {
+    let s = 0;
+    if (v.length >= 8) s++;
+    if (/[a-z]/.test(v) && /[A-Z]/.test(v)) s++;
+    if (/\d/.test(v)) s++;
+    if (/[^A-Za-z0-9]/.test(v) || v.length >= 14) s++;
+    return v ? Math.max(s, 1) : 0;
+  }
+
+  document.querySelectorAll('form[data-auth]').forEach(form => {
+    const fields = [...form.querySelectorAll('[data-rules]')];
+
+    fields.forEach(el => {
+      const ev = el.type === 'checkbox' ? 'change' : 'blur';
+      el.addEventListener(ev, () => validate(el));
+      el.addEventListener('input', () => {
+        if (el.closest('.field').classList.contains('err')) validate(el);
+        if (el.id === 'password') {
+          if (meter) { const s = strength(el.value); meter.dataset.s = s; mLabel.textContent = words[s]; }
+          const c = $('#confirm'); if (c && c.value) validate(c);
+        }
+      });
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const bad = fields.filter(el => !validate(el));
+      if (bad.length) { bad[0].focus(); return; }
+
+      const btn = $('button[type=submit]', form);
+      btn.setAttribute('aria-busy', 'true');
+      // TODO: replace with your real request (fetch / WooCommerce / WP endpoint)
+      setTimeout(() => {
+        btn.removeAttribute('aria-busy');
+        toast(form.dataset.success || 'Done!');
+      }, 900);
+    });
+  });
+})();
