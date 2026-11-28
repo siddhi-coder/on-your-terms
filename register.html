@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Create account | OYT</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+<div class="bar">Free shipping on orders over ₹999 <a href="#">Shop now</a></div>
+
+<header>
+  <div class="in nav">
+    <a class="logo" href="index.html"><img src="logo.png" alt="OYT"></a>
+    <nav class="links" id="links">
+      <a href="index.html">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="tools">
+      <a class="ic" href="login.html" aria-label="Log in">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </a>
+      <button class="ic" id="menu" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero auth">
+    <div class="in auth-grid">
+
+      <form class="auth-card" id="regForm" novalidate>
+        <h1>Create account</h1>
+        <p class="sub">Join OYT to save designs and track your orders.</p>
+
+        <div class="two">
+          <div class="field">
+            <label for="fname">First name</label>
+            <input id="fname" type="text" autocomplete="given-name" placeholder="First name" required>
+            <span class="msg" hidden></span>
+          </div>
+          <div class="field">
+            <label for="lname">Last name</label>
+            <input id="lname" type="text" autocomplete="family-name" placeholder="Last name" required>
+            <span class="msg" hidden></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          <span class="msg" hidden></span>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="pw">
+            <input id="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" required>
+            <button type="button" class="ic" data-toggle="password" aria-label="Show password">
+              <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <span class="msg" hidden></span>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <div class="pw">
+            <input id="confirm" type="password" autocomplete="new-password" placeholder="Repeat password" required>
+            <button type="button" class="ic" data-toggle="confirm" aria-label="Show password">
+              <svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <span class="msg" hidden></span>
+        </div>
+
+        <div class="field">
+          <label class="check"><input type="checkbox" id="terms"> <span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></span></label>
+          <span class="msg" hidden></span>
+        </div>
+
+        <button class="btn" type="submit">Create account</button>
+
+        <div class="or">or</div>
+        <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+      </form>
+
+      <div class="auth-art" aria-hidden="true">
+        <div class="book" style="--c:var(--blue)">
+          <div class="cover"><div class="label"><b>Your name here</b><small>Make it yours</small></div></div>
+          <div class="tabs">
+            <i style="background:var(--pink)">Plan</i>
+            <i style="background:var(--yellow)">Write</i>
+            <i style="background:var(--green)">Grow</i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="in"><p class="legal" style="border:0;margin:0;padding:0">© 2026 OYT. All rights reserved.</p></div>
+</footer>
+
+<div id="toast" role="status" hidden></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const toast = t => { const el = $('#toast'); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 3000); };
+
+$('#menu').addEventListener('click', e => {
+  const open = $('#links').classList.toggle('open');
+  e.currentTarget.setAttribute('aria-expanded', open);
+});
+
+document.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', () => {
+  const i = document.getElementById(b.dataset.toggle);
+  const show = i.type === 'password';
+  i.type = show ? 'text' : 'password';
+  b.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+}));
+
+function setErr(el, text) {
+  const f = el.closest('.field'), m = f.querySelector('.msg');
+  f.classList.toggle('err', !!text);
+  m.textContent = text || ''; m.hidden = !text;
+  return !text;
+}
+
+$('#regForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const v = id => $('#' + id);
+  const checks = [
+    setErr(v('fname'), v('fname').value.trim() ? '' : 'Enter your first name.'),
+    setErr(v('lname'), v('lname').value.trim() ? '' : 'Enter your last name.'),
+    setErr(v('email'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email').value.trim()) ? '' : 'Enter a valid email address.'),
+    setErr(v('password'), v('password').value.length >= 8 ? '' : 'Use at least 8 characters.'),
+    setErr(v('confirm'), v('confirm').value === v('password').value && v('confirm').value ? '' : 'Passwords do not match.'),
+    setErr(v('terms'), v('terms').checked ? '' : 'Please accept the terms to continue.')
+  ];
+  if (checks.includes(false)) return;
+  // TODO: submit to your backend / WooCommerce registration endpoint
+  toast('Account created!');
+});
+</script>
+</body>
+</html>

@@ -1285,3 +1285,58 @@ header { animation: fadeDown .7s ease .1s both }
     #purposes .ptext small { display: none }
     #purposes .panel { padding: 28px 20px; gap: 32px }
 }
+
+
+
+
+/* =========================================
+   AUTH (login / register) - load AFTER style.css
+========================================= */
+input,select,textarea{font:inherit;color:inherit}
+[hidden]{display:none!important}
+
+.auth{padding-block:56px 80px}
+.auth-grid{display:grid;grid-template-columns:minmax(0,480px) minmax(0,1fr);gap:64px;align-items:center;max-width:1000px;margin:auto}
+.auth-grid>*{min-width:0}
+
+.auth-card{background:var(--white);border:1px solid var(--line);border-radius:28px;padding:44px 40px;display:grid;gap:20px;box-shadow:0 30px 60px -30px rgba(84,84,84,.35)}
+.auth-card h1{font-size:clamp(2rem,4vw,2.6rem)}
+.auth-card .sub{font-size:16px;margin-top:-8px}
+
+.field{display:grid;gap:6px}
+.field label{font-size:14px;font-weight:400;color:var(--black)}
+.field input{width:100%;border:1px solid #bbb;border-radius:99px;padding:12px 20px;background:var(--white);transition:border-color .3s,box-shadow .3s}
+.field input::placeholder{color:#9a9a9a}
+.field input:focus{outline:none;border-color:var(--black);box-shadow:0 0 0 4px var(--purple)}
+.field .msg{font-size:13px;color:#b3261e;padding-left:20px}
+.field.err input{border-color:#b3261e}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+.pw{position:relative}
+.pw input{padding-right:54px}
+.pw .ic{position:absolute;right:4px;top:50%;translate:0 -50%;width:38px;height:38px}
+
+.auth-row{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;font-size:14px}
+.check{display:flex;align-items:flex-start;gap:8px;cursor:pointer;line-height:1.4}
+.check input{accent-color:#000;width:16px;height:16px;margin-top:2px;flex:none}
+.auth-row a,.check a,.auth-switch a{color:var(--black);text-decoration:underline;text-underline-offset:3px}
+
+.auth-card .btn{width:100%;padding-block:14px}
+
+.or{display:flex;align-items:center;gap:12px;font-size:13px}
+.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
+
+.auth-switch{text-align:center;font-size:15px}
+
+.auth-art{display:grid;justify-items:center}
+
+@media(max-width:960px){
+    .auth-grid{grid-template-columns:minmax(0,480px);justify-content:center}
+    .auth-art{display:none}
+}
+@media(max-width:520px){
+    .auth{padding-block:32px 56px}
+    .auth-card{padding:30px 20px;border-radius:22px}
+    .two{grid-template-columns:1fr}
+}
